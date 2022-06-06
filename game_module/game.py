@@ -36,8 +36,8 @@ class Game:
         pygame.init()
         pygame.time.set_timer(pygame.USEREVENT, 1000)
         self.screen = pygame.display.set_mode((BOARD_WIDTH, BOARD_WIDTH), pygame.RESIZABLE)
-        self.no_click_sound = pygame.mixer.Sound(game_constants.no_click)
-        self.click_sound = pygame.mixer.Sound(game_constants.click)
+        self.no_click_sound = pygame.mixer.Sound("../gui/audio/no_click.wav")
+        self.click_sound = pygame.mixer.Sound("../gui/audio/click.wav")
         self.font = pygame.font.SysFont("arial", 30)
 
     def init_game_module(self, game_mode: AI):
@@ -179,10 +179,10 @@ class Game:
                         self.click(x, y)
 
                 if event.type == pygame.QUIT:
-                    self.board.tolist()
-                    print(self.board.tolist().__class__)
-                    with open('save_game.json', 'w', encoding='utf-8') as f:
-                        json.dumps(self.__dict__, ensure_ascii=False, indent=4)
+                    # self.board.tolist()
+                    # print(self.board.tolist().__class__)
+                    # with open('save_game.json', 'w', encoding='utf-8') as f:
+                    #     json.dumps(self.__dict__, ensure_ascii=False, indent=4)
                     sys.exit()
 
                 if event.type == pygame.KEYUP:

@@ -3,7 +3,7 @@ from typing import TextIO
 
 class Logger:
     def __init__(self):
-        self.log: TextIO = open("party_log.txt", "r+", encoding='cp1251')
+        self.log: TextIO = open("../gui/party_log.txt", "r+", encoding='cp1251')
         self.log.truncate(0)
         self.log.write("История ходов:" + "\n")
 
@@ -14,7 +14,7 @@ class Logger:
         self.log.close()
 
     def record_in_table(self, color, AI):
-        table: TextIO = open("table_record.txt", "r", encoding='cp1251')
+        table: TextIO = open("../gui/table_record.txt", "r", encoding='cp1251')
         txt = table.read().split("\n")
         table.close()
 
@@ -33,7 +33,7 @@ class Logger:
         new = old[0] + ": " + str(int(old[1]) + 1)
         txt[i] = new
 
-        table: TextIO = open("table_record.txt", "w", encoding='cp1251')
+        table: TextIO = open("../gui/table_record.txt", "w", encoding='cp1251')
         table.truncate(0)
         for j in txt:
             table.write(j + "\n")
