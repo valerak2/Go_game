@@ -1,9 +1,10 @@
 from typing import TextIO
+from gui.get_file_name import party_log_path
 
 
 class Logger:
     def __init__(self):
-        self.log: TextIO = open("../gui/party_log.txt", "r+", encoding='cp1251')
+        self.log: TextIO = open(party_log_path(), "r+", encoding='UTF-8')
         self.log.truncate(0)
         self.log.write("История ходов:" + "\n")
 
@@ -14,7 +15,7 @@ class Logger:
         self.log.close()
 
     def record_in_table(self, color, AI):
-        table: TextIO = open("../gui/table_record.txt", "r", encoding='cp1251')
+        table: TextIO = open(party_log_path(), "r", encoding='UTF-8')
         txt = table.read().split("\n")
         table.close()
 
@@ -33,7 +34,7 @@ class Logger:
         new = old[0] + ": " + str(int(old[1]) + 1)
         txt[i] = new
 
-        table: TextIO = open("../gui/table_record.txt", "w", encoding='cp1251')
+        table: TextIO = open(party_log_path(), "w", encoding='UTF-8')
         table.truncate(0)
         for j in txt:
             table.write(j + "\n")

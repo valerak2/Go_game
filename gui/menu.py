@@ -1,9 +1,6 @@
 import datetime
-import pickle
-
-import pygame
 import pygame_menu
-
+import pygame
 from game_module.AI.easy_AI import Easy_AI
 from game_module.AI.medium_AI import Medium_AI
 from game_module.clock import Clock
@@ -11,6 +8,7 @@ from game_module.game import Game
 
 
 class Menu:
+
     def __init__(self):
         self.handicap = 0
         self.size = 19
@@ -52,31 +50,68 @@ class Menu:
         g.clear_screen()
         while True:
             g.update()
+
     def load_game(self):
         pass
 
     def upgrade(self):
         pygame.init()
-        surface = pygame.display.set_mode((600, 400))
+        surface = pygame.display.set_mode((600, 400), pygame.RESIZABLE)
         menu = pygame_menu.Menu('Go', 600, 400,
                                 theme=pygame_menu.themes.THEME_SOLARIZED)
 
-        menu.add.text_input('Фора: ', default='0', onchange=self.set_handicap)
+        menu.add.text_input(
+            'Фора: ',
+            default=0,
+            maxchar=2,
+            input_type=pygame_menu.locals.INPUT_INT,
+            cursor_selection_enable=False,
+            onchange=self.set_handicap)
         menu.add.label("Время на ход:")
-        menu.add.range_slider("Часы: ", default=0, range_values=(0, 24), increment=1, font_size=15,
+        menu.add.range_slider("Часы: ",
+                              default=0,
+                              range_values=(0, 24),
+                              increment=1,
+                              font_size=15,
                               onchange=self.set_hour)
-        menu.add.range_slider("Минуты ", default=0, range_values=(0, 59), increment=1, font_size=15,
+        menu.add.range_slider("Минуты ",
+                              default=0,
+                              range_values=(0, 59),
+                              increment=1,
+                              font_size=15,
                               onchange=self.set_minute)
-        menu.add.range_slider("Секунды ", default=1, range_values=(1, 59), increment=1, font_size=15,
+        menu.add.range_slider("Секунды ",
+                              default=1,
+                              range_values=(1, 59),
+                              increment=1,
+                              font_size=15,
                               onchange=self.set_second)
-        menu.add.selector('Размер :', [('19x19', 19), ('13x13', 13), ('9x9', 9)], onchange=self.set_size)
-        menu.add.selector('Режим игры', [('Hot seat', 0), ('Easy AI', 1), ('Medium AI', 2)],
+        menu.add.selector('Размер :',
+                          [('19x19', 19), ('13x13', 13), ('9x9', 9)],
+                          onchange=self.set_size)
+        menu.add.selector('Режим игры',
+                          [('Hot seat', 0), ('Easy AI', 1), ('Medium AI', 2)],
                           onchange=self.set_game_mode)
-        menu.add.button('Play', self.start_the_game)
-        menu.add.button('Quit', pygame_menu.events.EXIT)
+        menu.add.button('Play',
+                        self.start_the_game)
+        menu.add.button('Quit',
+                        pygame_menu.events.EXIT)
 
-        menu.mainloop(surface)
+        def on_resize() -> None:
+            window_size = surface.get_size()
+            new_w, new_h = window_size[0], window_size[1]
+            menu.resize(new_w, new_h)
 
+        while True:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.VIDEORESIZE:
+                    surface = pygame.display.set_mode((event.w, event.h),
+                                                      pygame.RESIZABLE)
+                    on_resize()
 
-if __name__ == "__main__":
-    Menu()
+            menu.update(events)
+            menu.draw(surface)
+
+            pygame.display.flip()
+

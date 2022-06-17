@@ -1,14 +1,14 @@
 import collections
 import itertools
-import json
 import sys
 
 import pygame
 import numpy as np
 from pygame import gfxdraw
-from game_module import game_constants
+
 from game_module import AI
 from game_module.AI.medium_AI import Medium_AI
+from gui.get_file_name import click_sound_path, no_click_sound_path
 from game_module.clock import Clock
 from game_module.game_constants import BOARD_WIDTH, DOT_RADIUS, BLACK, BOARD_BROWN, STONE_RADIUS, WHITE, SCORE_POS, \
     TURN_POS, TIMER_POS, RES_POS
@@ -36,8 +36,8 @@ class Game:
         pygame.init()
         pygame.time.set_timer(pygame.USEREVENT, 1000)
         self.screen = pygame.display.set_mode((BOARD_WIDTH, BOARD_WIDTH), pygame.RESIZABLE)
-        self.no_click_sound = pygame.mixer.Sound("../gui/audio/no_click.wav")
-        self.click_sound = pygame.mixer.Sound("../gui/audio/click.wav")
+        self.click_sound = pygame.mixer.Sound(click_sound_path())
+        self.no_click_sound = pygame.mixer.Sound(no_click_sound_path())
         self.font = pygame.font.SysFont("arial", 30)
 
     def init_game_module(self, game_mode: AI):
