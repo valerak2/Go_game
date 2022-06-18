@@ -1,0 +1,2 @@
+test_player1 1 0 0 
+test_player2 0 0 0

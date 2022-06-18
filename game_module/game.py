@@ -7,22 +7,23 @@ import numpy as np
 from pygame import gfxdraw
 
 from game_module import AI
-from game_module.AI.medium_AI import Medium_AI
+from game_module.AI.medium_AI import MediumAI
 from gui.get_file_name import click_sound_path, no_click_sound_path
 from game_module.clock import Clock
 from game_module.game_constants import BOARD_WIDTH, DOT_RADIUS, BLACK, BOARD_BROWN, STONE_RADIUS, WHITE, SCORE_POS, \
     TURN_POS, TIMER_POS, RES_POS
 
 from game_module import logic_operations
-from game_module.logger import Logger
+from game_module.logger import Logger, record_in_table
 
 
 class Game:
-    def __init__(self, size, handicap_point: int, clock: Clock, game_mode: AI):
+    def __init__(self, size, handicap_point: int, clock: Clock, game_mode: AI, user_name):
         self.size = size
         self.init_game_module(game_mode)
         self.board = np.zeros((size, size))
         self.clock: Clock = clock
+        self.user_name = user_name
         self.handicap_point = handicap_point
 
     def init_logic_prm(self):
@@ -75,7 +76,7 @@ class Game:
         self.board[col, row] = 1 if self.black_turn else 2
 
         # отправка ИИ ход игрока
-        if self.game_mode.__class__ == Medium_AI:
+        if self.game_mode.__class__ == MediumAI:
             self.game_mode.record__player_move(col, row)
 
         self_color = "black" if self.black_turn else "white"
@@ -150,7 +151,9 @@ class Game:
     def game_over(self):
         self.game_on = False
         self.draw()
-        self.logger.record_in_table(self.black_turn, self.game_mode)
+        print(self.user_name)
+        if self.user_name is not None and self.user_name != " " and self.user_name != "":
+            record_in_table(self.user_name, self.game_mode)
         self.logger.close()
 
     def update(self):

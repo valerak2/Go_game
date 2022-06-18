@@ -1,7 +1,7 @@
 from game_module.AI.ai import AI
 
 
-class Medium_AI(AI):
+class MediumAI(AI):
     def __init__(self):
         self.player_move_col = 3
         self.player_move_row = 4

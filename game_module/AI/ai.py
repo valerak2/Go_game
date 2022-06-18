@@ -1,7 +1,7 @@
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABCMeta, abstractmethod
 
 
-class AI():
+class AI:
     __metaclass__ = ABCMeta
 
     @abstractmethod
